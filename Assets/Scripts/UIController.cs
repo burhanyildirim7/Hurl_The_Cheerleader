@@ -10,6 +10,7 @@ public class UIController : MonoBehaviour
     public GameObject TapToStartPanel, LoosePanel, GamePanel, WinPanel, winScreenEffectObject, winScreenCoinImage, startScreenCoinImage, scoreEffect;
     public Text gamePlayScoreText, winScreenScoreText, levelNoText, tapToStartScoreText, totalElmasText;
     public Animator ScoreTextAnim;
+    public Text incomeText, powerText, incomeFiyatText, powerFiyatText;
 
 
 
@@ -31,21 +32,15 @@ public class UIController : MonoBehaviour
         ActivateTapToStartScreen();
     }
 
-    /// <summary>
-    /// Level numarasini ui kisminda degistirmek icin fonksiyon. Parametre olarak level numarasi aliyor.
-    /// </summary>
-    /// <param name="levelNo">UI ekranina yazilmak istenen Level numaras?</param>
     public void SetLevelText(int levelNo)
     {
         levelNoText.text = "Level " + levelNo.ToString();
     }
 
-    // TAPTOSTART TUSUNA BASILDISINDA  --- GIRIS EKRANINDA VE LEVEL BASLARINDA
     public void TapToStartButtonClick()
     {
 
         GameController.instance.isContinue = true;
-        //PlayerController.instance.SetArmForGaming();
         TapToStartPanel.SetActive(false);
         GamePanel.SetActive(true);
         SetLevelText(LevelController.instance.totalLevelNo);
@@ -53,7 +48,6 @@ public class UIController : MonoBehaviour
 
     }
 
-    // RESTART TUSUNA BASILDISINDA  --- LOOSE EKRANINDA
     public void RestartButtonClick()
     {
         GamePanel.SetActive(false);
@@ -64,7 +58,6 @@ public class UIController : MonoBehaviour
     }
 
 
-    // NEXT LEVEL TUSUNA BASILDIGINDA... WIN EKRANINDAKI BUTON
     public void NextLevelButtonClick()
     {
         SetTapToStartScoreText();
@@ -75,43 +68,37 @@ public class UIController : MonoBehaviour
         StartCoroutine(StartScreenCoinEffect());
     }
 
+    public void IncomeButtonClick()
+	{
+        Adam.instance.IncreaseIncome();
+	}
 
-    /// <summary>
-    /// Bu fonksiyon gameplay ekranindaki score textini gunceller.
-    /// </summary>
+    public void PowerButtonClick()
+	{
+        Adam.instance.IncreasePower();
+	}
+
     public void SetGamePlayScoreText()
     {
         gamePlayScoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
     }
 
 
-    /// <summary>
-    /// Bu fonksiyon totalScore un yazilmasi gereken textleri gunceller.
-    /// </summary>
     public void SetTapToStartScoreText()
     {
         tapToStartScoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
     }
 
-    /// <summary>
-    /// Bu fonksiyon winscreen de ge?erli level scoreunun yazildigi texti gunceller.
-    /// </summary>
     public void WinScreenScore()
     {
         winScreenScoreText.text = GameController.instance.score.ToString();
     }
 
-    /// <summary>
-    /// Bu fonksiyon totalElmas sayilarinin yazildigi textleri gunceller.
-    /// </summary>
     public void SetTotalElmasText()
     {
         totalElmasText.text = PlayerPrefs.GetInt("totalElmas").ToString();
     }
 
-    /// <summary>
-    /// Bu fonksiyon winscreen ekranini acar.
-    /// </summary>
     public void ActivateWinScreen()
     {
         GamePanel.SetActive(false);
@@ -194,9 +181,6 @@ public class UIController : MonoBehaviour
         Destroy(obj);
     }
 
-    /// <summary>
-    /// Bu fonksiyon loose secreeni acar. 
-    /// </summary>
     public void ActivateLooseScreen()
     {
         GamePanel.SetActive(false);
@@ -204,9 +188,6 @@ public class UIController : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Bu fonksiyon gamescreeni acar.
-    /// </summary>
     public void ActivateGameScreen()
     {
         GamePanel.SetActive(true);
@@ -214,9 +195,6 @@ public class UIController : MonoBehaviour
         SetGamePlayScoreText();
     }
 
-    /// <summary>
-    /// Bu fonksiyon taptostartscreen i acar.
-    /// </summary>
     public void ActivateTapToStartScreen()
     {
         TapToStartPanel.SetActive(true);
@@ -226,6 +204,11 @@ public class UIController : MonoBehaviour
         tapToStartScoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
     }
 
+
+    public void SetAllText()
+	{
+
+	}
 
 
 }
