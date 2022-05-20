@@ -15,7 +15,7 @@ public class Adam : MonoBehaviour
 
     [Header("Adamlar")]
     public List<GameObject> Adamlar = new();
-
+    GameObject currentAdam1,currentAdam2,currentAdam3;
     [Header("income Artis Miktari")]
     public float incomeArtisMiktari;
     [Header("power Artis Miktari")]
@@ -108,6 +108,22 @@ public class Adam : MonoBehaviour
                 Adamlar[index].SetActive(true);
                 Adamlar[index - 1].SetActive(true);
                 Adamlar[index - 2].SetActive(true);
+            }
+
+			for (int i = 0; i < transform.GetChild(0).transform.childCount; i++)
+			{
+                if (transform.GetChild(0).transform.GetChild(i).gameObject.activeInHierarchy)
+                    currentAdam1 = transform.GetChild(0).transform.GetChild(i).gameObject;
+			}
+            for (int i = 0; i < transform.GetChild(1).transform.childCount; i++)
+            {
+                if (transform.GetChild(1).transform.GetChild(i).gameObject.activeInHierarchy)
+                    currentAdam2 = transform.GetChild(1).transform.GetChild(i).gameObject;
+            }
+            for (int i = 0; i < transform.GetChild(2).transform.childCount; i++)
+            {
+                if (transform.GetChild(2).transform.GetChild(i).gameObject.activeInHierarchy)
+                    currentAdam3 = transform.GetChild(2).transform.GetChild(i).gameObject;
             }
         }    
     }
