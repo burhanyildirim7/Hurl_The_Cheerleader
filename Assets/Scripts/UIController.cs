@@ -8,10 +8,11 @@ public class UIController : MonoBehaviour
     public static UIController instance; // Singleton yapisi icin gerekli ornek
 
     public GameObject TapToStartPanel, LoosePanel, GamePanel, WinPanel, winScreenEffectObject, winScreenCoinImage, startScreenCoinImage, scoreEffect;
-    public Text gamePlayScoreText, winScreenScoreText, levelNoText, tapToStartScoreText, totalElmasText;
+    public Text  winScreenScoreText, levelNoText, totalElmasText;
     public Animator ScoreTextAnim;
-    public Text incomeText, powerText, incomeFiyatText, powerFiyatText;
+    public Text incomeText, powerText, incomeFiyatText, powerFiyatText,paraText;
     public Slider powerSlider;
+    
 
 
 
@@ -31,6 +32,7 @@ public class UIController : MonoBehaviour
     public void StartUI()
     {
         ActivateTapToStartScreen();
+        SetParaText();
     }
 
     public void SetLevelText(int levelNo)
@@ -46,7 +48,6 @@ public class UIController : MonoBehaviour
         StartCoroutine(AnimatePowerSlider());
         TapToStartPanel.SetActive(false);
         GamePanel.SetActive(true);
-        SetGamePlayScoreText();
         
     }
 
@@ -56,18 +57,19 @@ public class UIController : MonoBehaviour
         LoosePanel.SetActive(false);
         TapToStartPanel.SetActive(true);
         LevelController.instance.RestartLevelEvents();
-        SetTapToStartScoreText();
+
     }
+
 
 
     public void NextLevelButtonClick()
     {
-        SetTapToStartScoreText();
+
         TapToStartPanel.SetActive(true);
         WinPanel.SetActive(false);
         GamePanel.SetActive(false);
-        LevelController.instance.NextLevelEvents();
         StartCoroutine(StartScreenCoinEffect());
+        PonPonKiz.instance.Reset();
     }
 
     public void IncomeButtonClick()
@@ -83,7 +85,14 @@ public class UIController : MonoBehaviour
     public void FirlatButtonClick()
 	{
         GameController.instance.sliderTime = false;
-        
+        PonPonKiz.instance.Firlat();
+        GamePanel.SetActive(false);
+
+    }
+
+    public void SetParaText()
+	{
+        paraText.text = GameController.instance.para.ToString();
 	}
 
     public IEnumerator AnimatePowerSlider()
@@ -101,16 +110,8 @@ public class UIController : MonoBehaviour
 
 
 
-    public void SetGamePlayScoreText()
-    {
-        gamePlayScoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
-    }
 
 
-    public void SetTapToStartScoreText()
-    {
-        tapToStartScoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
-    }
 
     public void WinScreenScore()
     {
@@ -130,13 +131,14 @@ public class UIController : MonoBehaviour
 
     IEnumerator WinScreenDelay()
     {
+        yield return new WaitForSeconds(2);
         WinPanel.SetActive(true);
         winScreenScoreText.text = "0";
         int sayac = 0;
-        while (sayac < GameController.instance.score)
+        while (sayac < GameController.instance.currentPara)
         {
-            sayac += PlayerController.instance.collectibleDegeri;
-            if (sayac % 2 * PlayerController.instance.collectibleDegeri == 0)
+            sayac += 1;
+            if (sayac % 2 == 0)
             {
                 GameObject effectObj = Instantiate(winScreenEffectObject, new Vector3(144, 400, 0), Quaternion.identity, winScreenCoinImage.transform);
                 effectObj.transform.localPosition = new Vector3(144, 300, 0);
@@ -171,11 +173,11 @@ public class UIController : MonoBehaviour
         startScreenCoinImage.SetActive(true);
         float sayac = 0;
         int adet = 0;
-        while (Vector2.Distance(startScreenCoinImage.transform.position, tapToStartScoreText.transform.position) >= 5f)
+        while (Vector2.Distance(startScreenCoinImage.transform.position, paraText.transform.position) >= 5f)
         {
             adet++;
             sayac += .01f;
-            startScreenCoinImage.transform.position = Vector2.Lerp(startScreenCoinImage.transform.position, tapToStartScoreText.transform.position, sayac);
+            startScreenCoinImage.transform.position = Vector2.Lerp(startScreenCoinImage.transform.position, paraText.transform.position, sayac);
             yield return new WaitForSeconds(.025f);
             if (adet % 3 == 0)
             {
@@ -186,7 +188,7 @@ public class UIController : MonoBehaviour
             }
         }
         Instantiate(scoreEffect, new Vector3(1.34f, 5.43F, -1.15F), Quaternion.identity);
-        ScoreTextAnim.SetTrigger("score");
+
         startScreenCoinImage.SetActive(false);
         startScreenCoinImage.transform.localPosition = new Vector3(0, -446, 0);
     }
@@ -215,7 +217,7 @@ public class UIController : MonoBehaviour
     {
         GamePanel.SetActive(true);
         TapToStartPanel.SetActive(false);
-        SetGamePlayScoreText();
+
     }
 
     public void ActivateTapToStartScreen()
@@ -224,7 +226,7 @@ public class UIController : MonoBehaviour
         WinPanel.SetActive(false);
         LoosePanel.SetActive(false);
         GamePanel.SetActive(false);
-        tapToStartScoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
+
     }
 
 
