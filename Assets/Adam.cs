@@ -13,36 +13,37 @@ public class Adam : MonoBehaviour
 	}
     #endregion
 
-    [Header("Adam Modeli Parentleri")]
-    public GameObject Adam1, Adam2, Adam3;
-
+    [Header("Adamlar")]
     public List<GameObject> Adamlar = new();
 
     [Header("income Artis Miktari")]
-    public int incomeArtisMiktari;
+    public float incomeArtisMiktari;
     [Header("power Artis Miktari")]
     public int powerArtisMiktari;
 
 
     [Header("Diger Degiskenler")]
     public int power;
-    public int income;
+    public float income;
     public int incomeFiyati, powerFiyati;
 
 
     void Start()
     {
+        SetAdamModel();
+
         PlayerPrefs.DeleteAll();
 
 
-        income = PlayerPrefs.GetInt("income");
+        income = PlayerPrefs.GetFloat("income");
         power = PlayerPrefs.GetInt("power");
         GameController.instance.para = PlayerPrefs.GetInt("para");
+        GameController.instance.para = 100000;
 
         if(income == 0)
 		{
             income = 1;
-            PlayerPrefs.SetInt("income",income);
+            PlayerPrefs.SetFloat("income",income);
             PlayerPrefs.SetInt("incomefiyat",10);
 		}
 
@@ -64,7 +65,7 @@ public class Adam : MonoBehaviour
         if(GameController.instance.para >= incomeFiyati)
 		{
             income += incomeArtisMiktari;
-            PlayerPrefs.SetInt("income", income);
+            PlayerPrefs.SetFloat("income", income);
             incomeFiyati += 10;
             PlayerPrefs.SetInt("incomefiayti", incomeFiyati);
             UIController.instance.SetAllText();
@@ -81,68 +82,34 @@ public class Adam : MonoBehaviour
             powerFiyati += 10;
             PlayerPrefs.SetInt("powerfiyati", powerFiyati);
             UIController.instance.SetAllText();
+            SetAdamModel();
         }
 	}
 
 
     void SetAdamModel()
 	{
-        if(power <= 5)
+        if((power - 1) % 5 == 0)
 		{
-            Adam1.SetActive(true);
-            Adam2.SetActive(false);
-            Adam3.SetActive(false);
-		}
-        else if(power <= 10)
-		{
-            Adam1.SetActive(true);
-            Adam2.SetActive(true);
-            Adam3.SetActive(false);
-        }
-        else if(power <= 15)
-		{
-            Adam1.SetActive(true);
-            Adam2.SetActive(true);
-            Adam3.SetActive(true);
-        }
-
-        if(power == 21)
-		{
-            Adam1.transform.GetChild(0).gameObject.SetActive(false);
-            Adam1.transform.GetChild(1).gameObject.SetActive(true);
-		}
-        if (power == 26)
-        {
-            Adam2.transform.GetChild(0).gameObject.SetActive(false);
-            Adam2.transform.GetChild(1).gameObject.SetActive(true);
-        }
-        if (power == 31)
-        {
-            Adam3.transform.GetChild(0).gameObject.SetActive(false);
-            Adam3.transform.GetChild(1).gameObject.SetActive(true);
-        }
-        if (power == 36)
-        {
-            Adam1.transform.GetChild(1).gameObject.SetActive(false);
-            Adam1.transform.GetChild(0).gameObject.SetActive(true);
-        }
-        if (power == 41)
-        {
-            Adam2.transform.GetChild(0).gameObject.SetActive(false);
-            Adam2.transform.GetChild(1).gameObject.SetActive(true);
-        }
-        if (power == 46)
-        {
-            Adam3.transform.GetChild(0).gameObject.SetActive(false);
-            Adam3.transform.GetChild(1).gameObject.SetActive(true);
-        }
-
-
-
+            int index = (power - 1) / 5;
+            Debug.Log(index);
+            foreach (GameObject obj in Adamlar)
+            {
+                obj.SetActive(false);
+            }
+            if(index == 0)Adamlar[index].SetActive(true);
+            else if (index == 1)
+            {
+                Adamlar[index].SetActive(true);
+                Adamlar[index-1].SetActive(true);
+            }
+            else if(index >= 2 && index < 45)
+			{
+                Adamlar[index].SetActive(true);
+                Adamlar[index - 1].SetActive(true);
+                Adamlar[index - 2].SetActive(true);
+            }
+        }    
     }
 
-    void Update()
-    {
-        
-    }
 }

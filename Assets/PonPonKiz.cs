@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class PonPonKiz : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	#region SINGLETON
+	public static PonPonKiz instance;
+	private void Awake()
+	{
+		if (instance == null) instance = this;
+		else Destroy(instance);
+	}
+	#endregion
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void Firlat()
+	{
+
+	}
 }

@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     public Text gamePlayScoreText, winScreenScoreText, levelNoText, tapToStartScoreText, totalElmasText;
     public Animator ScoreTextAnim;
     public Text incomeText, powerText, incomeFiyatText, powerFiyatText;
+    public Slider powerSlider;
 
 
 
@@ -41,11 +42,12 @@ public class UIController : MonoBehaviour
     {
 
         GameController.instance.isContinue = true;
+        GameController.instance.sliderTime = true;
+        StartCoroutine(AnimatePowerSlider());
         TapToStartPanel.SetActive(false);
         GamePanel.SetActive(true);
-        SetLevelText(LevelController.instance.totalLevelNo);
         SetGamePlayScoreText();
-
+        
     }
 
     public void RestartButtonClick()
@@ -77,6 +79,27 @@ public class UIController : MonoBehaviour
 	{
         Adam.instance.IncreasePower();
 	}
+
+    public void FirlatButtonClick()
+	{
+        GameController.instance.sliderTime = false;
+        
+	}
+
+    public IEnumerator AnimatePowerSlider()
+	{
+        float artis = .01f;
+
+		while (GameController.instance.sliderTime)
+		{
+            powerSlider.value += artis;
+            if (powerSlider.value >= .5f || powerSlider.value <= -.5f) artis = -artis;
+            yield return new WaitForSeconds(.01f);
+		}
+	}
+
+
+
 
     public void SetGamePlayScoreText()
     {
