@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     public Animator ScoreTextAnim;
     public Text incomeText, powerText, incomeFiyatText, powerFiyatText,paraText;
     public Slider powerSlider;
+    public Text distanceObjText, bestDistanceObjText;
     
 
 
@@ -70,6 +71,8 @@ public class UIController : MonoBehaviour
         GamePanel.SetActive(false);
         StartCoroutine(StartScreenCoinEffect());
         PonPonKiz.instance.Reset();
+        GameController.instance.bestDistanceTextObj.SetActive(false);
+        GameController.instance.distanceTextObj.SetActive(true);
     }
 
     public void IncomeButtonClick()
@@ -110,6 +113,15 @@ public class UIController : MonoBehaviour
 	}
 
 
+    public void SetBestDistanceObjText()
+	{
+        bestDistanceObjText.text = PlayerPrefs.GetInt("best").ToString() + " m";
+	}
+
+    public void SetDistanceObjText()
+    {
+        distanceObjText.text = GameController.instance.currentDistance + " m";
+    }
 
 
 
@@ -133,7 +145,7 @@ public class UIController : MonoBehaviour
 
     IEnumerator WinScreenDelay()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         WinPanel.SetActive(true);
         winScreenScoreText.text = "0";
         int sayac = 0;

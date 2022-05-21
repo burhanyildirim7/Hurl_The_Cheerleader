@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameController : MonoBehaviour
     [HideInInspector] public bool isContinue;  // ayrintilar icin beni oku 19. satirdan itibaren bak
     [HideInInspector] public bool sliderTime;
     [HideInInspector] public float bestDistance, currentDistance;
+    public GameObject distanceUIObj;
 
     public GameObject bestDistanceLineObj, bestDistanceTextObj, distanceLineObj, distanceTextObj;
 
@@ -23,8 +25,8 @@ public class GameController : MonoBehaviour
 
 	void Start()
     {
-        bestDistance = PlayerPrefs.GetFloat("best");
-        StartCoroutine(DrawBestDistanceLine());
+        bestDistance = PlayerPrefs.GetInt("best");
+        if(bestDistance > 0) StartCoroutine(DrawBestDistanceLine());
         isContinue = false;
     }
 
@@ -57,6 +59,7 @@ public class GameController : MonoBehaviour
 	{
         yield return new WaitForSeconds(.6f);
         bestDistanceLineObj.transform.position = new(bestDistance, .54f, 0);
+        BestDistanceObjAnim();
     }
 
     public IEnumerator DrawDistanceLine()
@@ -64,6 +67,27 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(.6f);
         distanceLineObj.transform.position = new(currentDistance,.54f,0);
 	}
+
+    public void BestDistanceObjAnim()
+	{
+        
+        bestDistanceTextObj.SetActive(true);
+        distanceTextObj.SetActive(false);
+        distanceUIObj.transform.position = PonPonKiz.instance.transform.position + new Vector3(0, 5, -2);
+        Vector3 position = PonPonKiz.instance.transform.position + new Vector3(0,.5f,-2);
+        distanceUIObj.transform.DOMove(position,1).SetEase(Ease.OutBounce);
+        UIController.instance.SetBestDistanceObjText();
+	}
+
+    public void DistanceObjAnim()
+	{
+        bestDistanceTextObj.SetActive(false);
+        distanceTextObj.SetActive(true);
+        distanceUIObj.transform.position = PonPonKiz.instance.transform.position + new Vector3(0, 5, -2);
+        Vector3 position = PonPonKiz.instance.transform.position + new Vector3(0, .5f, -2);
+        distanceUIObj.transform.DOMove(position, 1).SetEase(Ease.OutBounce);
+        UIController.instance.SetDistanceObjText();
+    }
 
  
 }

@@ -22,6 +22,7 @@ public class PonPonKiz : MonoBehaviour
 	float etki;
 
 
+
 	private void Start()
 	{
 		DOTween.Init();
@@ -77,8 +78,9 @@ public class PonPonKiz : MonoBehaviour
 		if(yeniDistance > GameController.instance.bestDistance)
 		{
 			GameController.instance.bestDistance = yeniDistance;
-			PlayerPrefs.SetFloat("best", yeniDistance);
+			PlayerPrefs.SetInt("best", (int)yeniDistance);
 			StartCoroutine(GameController.instance.DrawBestDistanceLine());
+		
 		}
 		else
 		{
