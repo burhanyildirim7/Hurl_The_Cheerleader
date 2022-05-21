@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 
     [HideInInspector] public bool isContinue;  // ayrintilar icin beni oku 19. satirdan itibaren bak
     [HideInInspector] public bool sliderTime;
-    [HideInInspector] public int bestDistance, currentDistance;
+    [HideInInspector] public float bestDistance, currentDistance;
 
     public GameObject bestDistanceLineObj, bestDistanceTextObj, distanceLineObj, distanceTextObj;
 
@@ -23,8 +23,8 @@ public class GameController : MonoBehaviour
 
 	void Start()
     {
-        bestDistance = PlayerPrefs.GetInt("best");
-        DrawBestDistanceLine();
+        bestDistance = PlayerPrefs.GetFloat("best");
+        StartCoroutine(DrawBestDistanceLine());
         isContinue = false;
     }
 
@@ -53,13 +53,17 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt("totalScore", PlayerPrefs.GetInt("totalScore") + score);
     }
 
-    public void DrawBestDistanceLine()
+    public IEnumerator DrawBestDistanceLine()
 	{
-        bestDistanceLineObj.transform.position = new(bestDistance, .55f, 0);
+        yield return new WaitForSeconds(.6f);
+        bestDistanceLineObj.transform.position = new(bestDistance, .54f, 0);
     }
 
-    public void DrawDistanceLine()
+    public IEnumerator DrawDistanceLine()
 	{
-        distanceLineObj.transform.position = new(currentDistance,.55f,0);
+        yield return new WaitForSeconds(.6f);
+        distanceLineObj.transform.position = new(currentDistance,.54f,0);
 	}
+
+ 
 }

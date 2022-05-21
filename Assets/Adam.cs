@@ -15,7 +15,7 @@ public class Adam : MonoBehaviour
 
     [Header("Adamlar")]
     public List<GameObject> Adamlar = new();
-    GameObject currentAdam1,currentAdam2,currentAdam3;
+    public GameObject currentAdam1,currentAdam2,currentAdam3;
     [Header("income Artis Miktari")]
     public float incomeArtisMiktari;
     [Header("power Artis Miktari")]
@@ -34,9 +34,10 @@ public class Adam : MonoBehaviour
 
         PlayerPrefs.DeleteAll();
 
-
         income = PlayerPrefs.GetFloat("income");
         power = PlayerPrefs.GetInt("power");
+        incomeFiyati = PlayerPrefs.GetInt("incomefiyati");
+        powerFiyati = PlayerPrefs.GetInt("powerfiyati");
         GameController.instance.para = PlayerPrefs.GetInt("para");
         GameController.instance.para = 100000;
 
@@ -44,18 +45,28 @@ public class Adam : MonoBehaviour
 		{
             income = 1;
             PlayerPrefs.SetFloat("income",income);
-            PlayerPrefs.SetInt("incomefiyat",10);
+            PlayerPrefs.SetInt("incomefiyati",10);
 		}
 
         if(power == 0)
 		{
             power = 1;
             PlayerPrefs.SetInt("power", power);
-            PlayerPrefs.SetInt("powerfiyat", 10);
+            PlayerPrefs.SetInt("powerfiyati", 10);
         }
 
-        incomeFiyati = PlayerPrefs.GetInt("incomefiyat");
-        powerFiyati = PlayerPrefs.GetInt("powerfiyat");
+        if (powerFiyati == 0)
+        {
+            powerFiyati = 10;
+            PlayerPrefs.SetInt("powerfiyati", 10);
+        }
+
+        if (incomeFiyati == 0)
+        {
+            incomeFiyati = 10;
+            PlayerPrefs.SetInt("incomefiyati", 10);
+        }
+
 
         UIController.instance.SetAllText();
     }
@@ -67,10 +78,11 @@ public class Adam : MonoBehaviour
             income += incomeArtisMiktari;
             PlayerPrefs.SetFloat("income", income);
             incomeFiyati += 10;
-            PlayerPrefs.SetInt("incomefiayti", incomeFiyati);
+            GameController.instance.para -= incomeFiyati;
+            PlayerPrefs.SetInt("incomefiyati", incomeFiyati);
+            PlayerPrefs.SetInt("para", GameController.instance.para);
             UIController.instance.SetAllText();
-        }
-       
+        }   
     }
 
     public void IncreasePower()
@@ -80,7 +92,9 @@ public class Adam : MonoBehaviour
             power += powerArtisMiktari;
             PlayerPrefs.SetInt("power", power);
             powerFiyati += 10;
+            GameController.instance.para -= powerFiyati;
             PlayerPrefs.SetInt("powerfiyati", powerFiyati);
+            PlayerPrefs.SetInt("para", GameController.instance.para);
             UIController.instance.SetAllText();
             SetAdamModel();
         }
@@ -113,7 +127,10 @@ public class Adam : MonoBehaviour
 			for (int i = 0; i < transform.GetChild(0).transform.childCount; i++)
 			{
                 if (transform.GetChild(0).transform.GetChild(i).gameObject.activeInHierarchy)
+				{
                     currentAdam1 = transform.GetChild(0).transform.GetChild(i).gameObject;
+                    PonPonKiz.instance.currentAdamEli = PonPonKiz.instance.adamElleri[i];
+                }             
 			}
             for (int i = 0; i < transform.GetChild(1).transform.childCount; i++)
             {
@@ -125,6 +142,9 @@ public class Adam : MonoBehaviour
                 if (transform.GetChild(2).transform.GetChild(i).gameObject.activeInHierarchy)
                     currentAdam3 = transform.GetChild(2).transform.GetChild(i).gameObject;
             }
+
+
+            
         }    
     }
 

@@ -15,29 +15,46 @@ public class PonPonKiz : MonoBehaviour
 	#endregion
 
 
+	public List<Transform> adamElleri = new();
+	public Transform currentAdamEli;
+	[HideInInspector] public bool ucuyorum;
+	public GameObject confetiPrefab;
+	float etki;
+
+
 	private void Start()
 	{
 		DOTween.Init();
+		ucuyorum = false;
+	}
+
+	private void Update()
+	{
+		if (currentAdamEli != null && !ucuyorum)
+		{
+			transform.position = currentAdamEli.transform.position + new Vector3(-.5f,.5f);
+		}
 	}
 
 
 	public void Firlat()
 	{
+		ucuyorum = true;
 		float power = Adam.instance.power;
-
+		etki = 1;
 		if(UIController.instance.powerSlider.value < 0)
 		{
-			float etki = -UIController.instance.powerSlider.value;
+			etki = -UIController.instance.powerSlider.value;
 			power = power - power * etki;
 		}
 		else if(UIController.instance.powerSlider.value > 0)
 		{
-			float etki = UIController.instance.powerSlider.value;
+			etki = UIController.instance.powerSlider.value;
 			power = power - power * etki;
 		}
 
 		float distanceX = 4 + power*2;
-		Vector3 targetPosition = new Vector3(distanceX,0,0);
+		Vector3 targetPosition = new Vector3(distanceX,.95f,0);
 		float jumpPower = 4 + power / 4 ;
 		float duration = 1 + power / 5 ;
 
@@ -47,28 +64,32 @@ public class PonPonKiz : MonoBehaviour
 
 	public void ParaHesapla()
 	{
-		int yeniPara = (int)transform.position.x;
+		Instantiate(confetiPrefab,transform.position + new Vector3(0,0,1),Quaternion.identity);
+		Instantiate(confetiPrefab,transform.position + new Vector3(0,0,-1),Quaternion.identity);
+		int yeniPara = (int)(transform.position.x*Adam.instance.income);
 		GameController.instance.para += yeniPara;
 		GameController.instance.currentPara = yeniPara;
 		PlayerPrefs.SetInt("para", GameController.instance.para);
 		UIController.instance.SetParaText();
 		UIController.instance.ActivateWinScreen();
 
-		if(yeniPara > GameController.instance.bestDistance)
+		float yeniDistance = transform.position.x;
+		if(yeniDistance > GameController.instance.bestDistance)
 		{
-			GameController.instance.bestDistance = yeniPara;
-			PlayerPrefs.SetInt("best", yeniPara);
-			GameController.instance.DrawBestDistanceLine();
+			GameController.instance.bestDistance = yeniDistance;
+			PlayerPrefs.SetFloat("best", yeniDistance);
+			StartCoroutine(GameController.instance.DrawBestDistanceLine());
 		}
 		else
 		{
-			GameController.instance.currentDistance = yeniPara;
-			GameController.instance.DrawDistanceLine();
+			GameController.instance.currentDistance = yeniDistance;
+			StartCoroutine(GameController.instance.DrawDistanceLine());
 		}
 	}
 
 	public void Reset()
 	{
+		ucuyorum = false;
 		GameController.instance.currentPara = 0;
 		transform.position = new Vector3(0,2.35f,0);
 	}

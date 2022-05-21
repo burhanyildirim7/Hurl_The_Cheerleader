@@ -85,7 +85,9 @@ public class UIController : MonoBehaviour
     public void FirlatButtonClick()
 	{
         GameController.instance.sliderTime = false;
-        PonPonKiz.instance.Firlat();
+        Adam.instance.currentAdam1.GetComponent<Animator>().SetTrigger("firlat");
+        if(Adam.instance.currentAdam2 != null) Adam.instance.currentAdam2.GetComponent<Animator>().SetTrigger("firlat");
+        if(Adam.instance.currentAdam3 != null)Adam.instance.currentAdam3.GetComponent<Animator>().SetTrigger("firlat");
         GamePanel.SetActive(false);
 
     }
@@ -232,7 +234,11 @@ public class UIController : MonoBehaviour
 
     public void SetAllText()
 	{
-
+        incomeText.text = PlayerPrefs.GetFloat("income").ToString();
+        powerText.text = PlayerPrefs.GetInt("power").ToString();
+        powerFiyatText.text = PlayerPrefs.GetInt("powerfiyati").ToString();
+        incomeFiyatText.text = PlayerPrefs.GetInt("incomefiyati").ToString();
+        paraText.text = PlayerPrefs.GetInt("para").ToString();
 	}
 
 
