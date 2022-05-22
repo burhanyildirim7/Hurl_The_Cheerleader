@@ -33,14 +33,14 @@ public class Adam : MonoBehaviour
     {
 
 
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
 
         income = PlayerPrefs.GetFloat("income");
         power = PlayerPrefs.GetInt("power");
         incomeFiyati = PlayerPrefs.GetInt("incomefiyati");
         powerFiyati = PlayerPrefs.GetInt("powerfiyati");
         GameController.instance.para = PlayerPrefs.GetInt("para");
-        GameController.instance.para = 100;
+        GameController.instance.para = 100000;
 
         if(income == 0)
 		{

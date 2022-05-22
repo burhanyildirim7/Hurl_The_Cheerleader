@@ -20,6 +20,7 @@ public class PonPonKiz : MonoBehaviour
 	[HideInInspector] public bool ucuyorum;
 	public GameObject confetiPrefab;
 	float etki;
+	public Animator ponponAnim;
 
 
 
@@ -41,6 +42,7 @@ public class PonPonKiz : MonoBehaviour
 	public void Firlat()
 	{
 		ucuyorum = true;
+		ponponAnim.SetTrigger("flip");
 		float power = Adam.instance.power;
 		etki = 1;
 		if(UIController.instance.powerSlider.value < 0)
@@ -57,10 +59,11 @@ public class PonPonKiz : MonoBehaviour
 		float distanceX = 4 + power*4;
 		Vector3 targetPosition = new Vector3(distanceX,.95f,0);
 		float jumpPower = 6 + power / 5 ;
-		float duration = 1 + power / 10 ;
+		float duration = 1.1f + power / 10 ;
 
 		transform.DOJump(targetPosition,jumpPower,1,duration).SetEase(Ease.Linear).OnComplete(
 			()=> ParaHesapla());
+		StartCoroutine(KonAnim(duration-.8f));
 	}
 
 	public void ParaHesapla()
@@ -94,5 +97,11 @@ public class PonPonKiz : MonoBehaviour
 		ucuyorum = false;
 		GameController.instance.currentPara = 0;
 		transform.position = new Vector3(0,2.35f,0);
+	}
+
+	public IEnumerator KonAnim(float time)
+	{
+		yield return new WaitForSeconds(time);
+		ponponAnim.SetTrigger("kon");
 	}
 }
