@@ -56,14 +56,14 @@ public class PonPonKiz : MonoBehaviour
 			power = power - power * etki;
 		}
 
-		float distanceX = 4 + power*4;
+		float distanceX = 4 + power*5f;
 		Vector3 targetPosition = new Vector3(distanceX,.95f,0);
 		float jumpPower = 6 + power / 5 ;
 		float duration = 1.1f + power / 10 ;
 
 		transform.DOJump(targetPosition,jumpPower,1,duration).SetEase(Ease.Linear).OnComplete(
 			()=> ParaHesapla());
-		StartCoroutine(KonAnim(duration-.8f));
+		StartCoroutine(KonAnim(duration-.7f));
 	}
 
 	public void ParaHesapla()

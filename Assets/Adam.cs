@@ -40,7 +40,7 @@ public class Adam : MonoBehaviour
         incomeFiyati = PlayerPrefs.GetInt("incomefiyati");
         powerFiyati = PlayerPrefs.GetInt("powerfiyati");
         GameController.instance.para = PlayerPrefs.GetInt("para");
-        GameController.instance.para = 100000;
+        GameController.instance.para = 100000000;
 
         if(income == 0)
 		{
@@ -81,9 +81,9 @@ public class Adam : MonoBehaviour
             PlayerPrefs.SetFloat("income", income);
 
             GameController.instance.para -= incomeFiyati;
+            incomeFiyati = incomeFiyati + 15; ;
             PlayerPrefs.SetInt("incomefiyati", incomeFiyati);
             PlayerPrefs.SetInt("para", GameController.instance.para);
-            incomeFiyati += 10;
             UIController.instance.SetAllText();
         }   
     }
@@ -95,9 +95,9 @@ public class Adam : MonoBehaviour
             power += powerArtisMiktari;
             PlayerPrefs.SetInt("power", power);
             GameController.instance.para -= powerFiyati;
+            powerFiyati = powerFiyati + 15;
             PlayerPrefs.SetInt("powerfiyati", powerFiyati);
-            PlayerPrefs.SetInt("para", GameController.instance.para);
-            powerFiyati += 10;
+            PlayerPrefs.SetInt("para", GameController.instance.para);     
             UIController.instance.SetAllText();
             SetAdamModel();
         }
