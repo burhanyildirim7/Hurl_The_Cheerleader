@@ -6,7 +6,7 @@ public class AnimationKey : MonoBehaviour
 {
     public void Firlat()
 	{
-		GetComponent<Animator>().speed = 5f;
+		
 		PonPonKiz.instance.Firlat();
 	}
 
@@ -15,5 +15,10 @@ public class AnimationKey : MonoBehaviour
 		GetComponent<Animator>().speed = 1f;
 		GetComponent<Animator>().SetTrigger("idle");
 		
+	}
+
+	public void IncreaseSpeed()
+	{
+		GetComponent<Animator>().speed = 5f;
 	}
 }

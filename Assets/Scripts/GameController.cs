@@ -66,6 +66,7 @@ public class GameController : MonoBehaviour
 	{
         yield return new WaitForSeconds(.6f);
         distanceLineObj.transform.position = new(currentDistance,.54f,0);
+        DistanceObjAnim();
 	}
 
     public void BestDistanceObjAnim()

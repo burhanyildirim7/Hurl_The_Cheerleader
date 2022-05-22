@@ -54,9 +54,9 @@ public class PonPonKiz : MonoBehaviour
 			power = power - power * etki;
 		}
 
-		float distanceX = 4 + power*3;
+		float distanceX = 4 + power*4;
 		Vector3 targetPosition = new Vector3(distanceX,.95f,0);
-		float jumpPower = 4 + power / 5 ;
+		float jumpPower = 6 + power / 5 ;
 		float duration = 1 + power / 10 ;
 
 		transform.DOJump(targetPosition,jumpPower,1,duration).SetEase(Ease.Linear).OnComplete(

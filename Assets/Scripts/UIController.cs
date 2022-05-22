@@ -58,7 +58,7 @@ public class UIController : MonoBehaviour
         LoosePanel.SetActive(false);
         TapToStartPanel.SetActive(true);
         LevelController.instance.RestartLevelEvents();
-
+        GameController.instance.distanceLineObj.transform.position = new Vector3(-100, 0, 0);
     }
 
 
@@ -72,7 +72,8 @@ public class UIController : MonoBehaviour
         StartCoroutine(StartScreenCoinEffect());
         PonPonKiz.instance.Reset();
         GameController.instance.bestDistanceTextObj.SetActive(false);
-        GameController.instance.distanceTextObj.SetActive(true);
+        GameController.instance.distanceTextObj.SetActive(false);
+        GameController.instance.distanceLineObj.transform.position = new Vector3(-100,0,0);
     }
 
     public void IncomeButtonClick()
@@ -120,7 +121,7 @@ public class UIController : MonoBehaviour
 
     public void SetDistanceObjText()
     {
-        distanceObjText.text = GameController.instance.currentDistance + " m";
+        distanceObjText.text = (int)GameController.instance.currentDistance + " m";
     }
 
 

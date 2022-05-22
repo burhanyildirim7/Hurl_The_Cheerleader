@@ -26,6 +26,7 @@ public class Adam : MonoBehaviour
     public int power;
     public float income;
     public int incomeFiyati, powerFiyati;
+    public GameObject adamEfecti;
 
 
     void Start()
@@ -133,17 +134,26 @@ public class Adam : MonoBehaviour
 				{
                     currentAdam1 = transform.GetChild(0).transform.GetChild(i).gameObject;
                     PonPonKiz.instance.currentAdamEli = PonPonKiz.instance.adamElleri[i];
+                    if (power > 1) Instantiate(adamEfecti,currentAdam1.transform.position+ new Vector3(0, 2, 0), Quaternion.identity);
                 }             
 			}
             for (int i = 0; i < transform.GetChild(1).transform.childCount; i++)
             {
                 if (transform.GetChild(1).transform.GetChild(i).gameObject.activeInHierarchy)
+				{
                     currentAdam2 = transform.GetChild(1).transform.GetChild(i).gameObject;
+                    if (power > 1) Instantiate(adamEfecti, currentAdam2.transform.position+new Vector3(0, 2, 0), Quaternion.identity);
+                }
+                    
             }
             for (int i = 0; i < transform.GetChild(2).transform.childCount; i++)
             {
                 if (transform.GetChild(2).transform.GetChild(i).gameObject.activeInHierarchy)
+				{
                     currentAdam3 = transform.GetChild(2).transform.GetChild(i).gameObject;
+                    if (power > 1) Instantiate(adamEfecti, currentAdam3.transform.position + new Vector3(0,2,0), Quaternion.identity);
+                }
+                   
             }
 
 
