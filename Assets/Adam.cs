@@ -39,7 +39,7 @@ public class Adam : MonoBehaviour
         incomeFiyati = PlayerPrefs.GetInt("incomefiyati");
         powerFiyati = PlayerPrefs.GetInt("powerfiyati");
         GameController.instance.para = PlayerPrefs.GetInt("para");
-        GameController.instance.para = 100000;
+        GameController.instance.para = 10000000;
 
         if(income == 0)
 		{
@@ -103,14 +103,17 @@ public class Adam : MonoBehaviour
 
     void SetAdamModel()
 	{
-        if((power - 1) % 5 == 0)
+        if((power - 1) % 5 == 0 )
 		{
             int index = (power - 1) / 5;
-            Debug.Log(index);
-            foreach (GameObject obj in Adamlar)
-            {
-                obj.SetActive(false);
+			if (index < 45)
+			{
+                foreach (GameObject obj in Adamlar)
+                {
+                    obj.SetActive(false);
+                }
             }
+            
             if(index == 0)Adamlar[index].SetActive(true);
             else if (index == 1)
             {
