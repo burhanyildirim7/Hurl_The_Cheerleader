@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     public Text incomeText, powerText, incomeFiyatText, powerFiyatText,paraText;
     public Slider powerSlider;
     public Text distanceObjText, bestDistanceObjText;
+    public Button powerButton, incomeButton;
     
 
 
@@ -27,7 +28,9 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         StartUI();
+        ControlButtons();
     }
+
 
     // Oyun ilk acildiginda calisacak olan ui fonksiyonu. 
     public void StartUI()
@@ -96,8 +99,30 @@ public class UIController : MonoBehaviour
 
     }
 
+    public void ControlButtons()
+	{
+        if(Adam.instance.powerFiyati <= GameController.instance.para)
+		{
+            powerButton.interactable = true;
+		}
+		else
+		{
+            powerButton.interactable = false;
+		}
+
+        if (Adam.instance.incomeFiyati <= GameController.instance.para)
+        {
+            incomeButton.interactable = true;
+        }
+        else
+        {
+            incomeButton.interactable = false;
+        }
+    }
+
     public void SetParaText()
 	{
+        ControlButtons();
         paraText.text = GameController.instance.para.ToString();
 	}
 
@@ -252,6 +277,7 @@ public class UIController : MonoBehaviour
         powerFiyatText.text = PlayerPrefs.GetInt("powerfiyati").ToString();
         incomeFiyatText.text = PlayerPrefs.GetInt("incomefiyati").ToString();
         paraText.text = PlayerPrefs.GetInt("para").ToString();
+        ControlButtons();
 	}
 
 

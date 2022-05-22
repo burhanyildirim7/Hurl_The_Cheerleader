@@ -31,16 +31,16 @@ public class Adam : MonoBehaviour
 
     void Start()
     {
-        SetAdamModel();
 
-        PlayerPrefs.DeleteAll();
+
+        //PlayerPrefs.DeleteAll();
 
         income = PlayerPrefs.GetFloat("income");
         power = PlayerPrefs.GetInt("power");
         incomeFiyati = PlayerPrefs.GetInt("incomefiyati");
         powerFiyati = PlayerPrefs.GetInt("powerfiyati");
         GameController.instance.para = PlayerPrefs.GetInt("para");
-        GameController.instance.para = 10000000;
+        GameController.instance.para = 100;
 
         if(income == 0)
 		{
@@ -70,6 +70,7 @@ public class Adam : MonoBehaviour
 
 
         UIController.instance.SetAllText();
+        SetAdamModelForStarting();
     }
 
     public void IncreaseIncome()
@@ -78,10 +79,11 @@ public class Adam : MonoBehaviour
 		{
             income += incomeArtisMiktari;
             PlayerPrefs.SetFloat("income", income);
-            incomeFiyati += 10;
+
             GameController.instance.para -= incomeFiyati;
             PlayerPrefs.SetInt("incomefiyati", incomeFiyati);
             PlayerPrefs.SetInt("para", GameController.instance.para);
+            incomeFiyati += 10;
             UIController.instance.SetAllText();
         }   
     }
@@ -92,14 +94,74 @@ public class Adam : MonoBehaviour
 		{
             power += powerArtisMiktari;
             PlayerPrefs.SetInt("power", power);
-            powerFiyati += 10;
             GameController.instance.para -= powerFiyati;
             PlayerPrefs.SetInt("powerfiyati", powerFiyati);
             PlayerPrefs.SetInt("para", GameController.instance.para);
+            powerFiyati += 10;
             UIController.instance.SetAllText();
             SetAdamModel();
         }
 	}
+
+    void SetAdamModelForStarting()
+	{
+        int index = (power - 1) / 5;
+        if (index < 45)
+        {
+            foreach (GameObject obj in Adamlar)
+            {
+                obj.SetActive(false);
+            }
+        }
+
+        if (index == 0) Adamlar[index].SetActive(true);
+        else if (index == 1)
+        {
+            Adamlar[index].SetActive(true);
+            Adamlar[index - 1].SetActive(true);
+        }
+        else if (index >= 2 && index < 45)
+        {
+            Adamlar[index].SetActive(true);
+            Adamlar[index - 1].SetActive(true);
+            Adamlar[index - 2].SetActive(true);
+        }
+        else if(index >= 45)
+		{
+            Adamlar[44].SetActive(true);
+            Adamlar[43].SetActive(true);
+            Adamlar[42].SetActive(true);
+		}
+
+        for (int i = 0; i < transform.GetChild(0).transform.childCount; i++)
+        {
+            if (transform.GetChild(0).transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                currentAdam1 = transform.GetChild(0).transform.GetChild(i).gameObject;
+                PonPonKiz.instance.currentAdamEli = PonPonKiz.instance.adamElleri[i];
+                //if (power > 1) Instantiate(adamEfecti, currentAdam1.transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+            }
+        }
+        for (int i = 0; i < transform.GetChild(1).transform.childCount; i++)
+        {
+            if (transform.GetChild(1).transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                currentAdam2 = transform.GetChild(1).transform.GetChild(i).gameObject;
+                //if (power > 1) Instantiate(adamEfecti, currentAdam2.transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+            }
+
+        }
+        for (int i = 0; i < transform.GetChild(2).transform.childCount; i++)
+        {
+            if (transform.GetChild(2).transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                currentAdam3 = transform.GetChild(2).transform.GetChild(i).gameObject;
+                //if (power > 1) Instantiate(adamEfecti, currentAdam3.transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+            }
+
+        }
+
+    }
 
 
     void SetAdamModel()

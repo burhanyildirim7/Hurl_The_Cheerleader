@@ -20724,6 +20724,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.8666667
+    functionName: IncreaseSpeed
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.5333333
     functionName: Firlat
     data: 
     objectReferenceParameter: {fileID: 0}
