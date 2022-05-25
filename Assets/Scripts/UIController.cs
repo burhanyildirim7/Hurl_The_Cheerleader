@@ -27,6 +27,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         StartUI();
         ControlButtons();
     }
@@ -128,7 +129,7 @@ public class UIController : MonoBehaviour
 
     public IEnumerator AnimatePowerSlider()
 	{
-        float artis = .01f;
+        float artis = .03f;
 
 		while (GameController.instance.sliderTime)
 		{
