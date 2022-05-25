@@ -237,6 +237,7 @@ public class UIController : MonoBehaviour
             }
         }
         Instantiate(scoreEffect, new Vector3(1.34f, 5.43F, -1.15F), Quaternion.identity);
+        SetParaText();
 
         startScreenCoinImage.SetActive(false);
         startScreenCoinImage.transform.localPosition = new Vector3(0, -446, 0);

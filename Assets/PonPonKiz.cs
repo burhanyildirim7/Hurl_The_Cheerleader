@@ -71,10 +71,10 @@ public class PonPonKiz : MonoBehaviour
 		Instantiate(confetiPrefab,transform.position + new Vector3(0,0,1),Quaternion.identity);
 		Instantiate(confetiPrefab,transform.position + new Vector3(0,0,-1),Quaternion.identity);
 		int yeniPara = (int)(transform.position.x*Adam.instance.income);
-		GameController.instance.para += yeniPara;
+		GameController.instance.para += yeniPara*2;
 		GameController.instance.currentPara = yeniPara*2;
 		PlayerPrefs.SetInt("para", GameController.instance.para);
-		UIController.instance.SetParaText();
+		//UIController.instance.SetParaText();
 		UIController.instance.ActivateWinScreen();
 
 		float yeniDistance = transform.position.x;
