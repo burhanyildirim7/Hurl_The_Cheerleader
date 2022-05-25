@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     public Slider powerSlider;
     public Text distanceObjText, bestDistanceObjText;
     public Button powerButton, incomeButton;
+    public GameObject powerSliderPanel;
     
 
 
@@ -36,6 +37,7 @@ public class UIController : MonoBehaviour
     // Oyun ilk acildiginda calisacak olan ui fonksiyonu. 
     public void StartUI()
     {
+       
         ActivateTapToStartScreen();
         SetParaText();
     }
@@ -47,7 +49,7 @@ public class UIController : MonoBehaviour
 
     public void TapToStartButtonClick()
     {
-
+        powerSliderPanel.SetActive(true);
         GameController.instance.isContinue = true;
         GameController.instance.sliderTime = true;
         StartCoroutine(AnimatePowerSlider());
@@ -97,8 +99,14 @@ public class UIController : MonoBehaviour
         if(Adam.instance.currentAdam2 != null) Adam.instance.currentAdam2.GetComponent<Animator>().SetTrigger("firlat");
         if(Adam.instance.currentAdam3 != null)Adam.instance.currentAdam3.GetComponent<Animator>().SetTrigger("firlat");
         GamePanel.SetActive(false);
-
+        StartCoroutine(SliderGizle());
     }
+
+    IEnumerator SliderGizle()
+	{
+        yield return new WaitForSeconds(1.2f);
+        powerSliderPanel.SetActive(false);
+	}
 
     public void ControlButtons()
 	{
@@ -263,6 +271,7 @@ public class UIController : MonoBehaviour
 
     public void ActivateTapToStartScreen()
     {
+        powerSliderPanel.SetActive(false);
         TapToStartPanel.SetActive(true);
         WinPanel.SetActive(false);
         LoosePanel.SetActive(false);
