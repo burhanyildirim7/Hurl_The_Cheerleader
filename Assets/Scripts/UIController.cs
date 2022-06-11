@@ -8,14 +8,14 @@ public class UIController : MonoBehaviour
     public static UIController instance; // Singleton yapisi icin gerekli ornek
 
     public GameObject TapToStartPanel, LoosePanel, GamePanel, WinPanel, winScreenEffectObject, winScreenCoinImage, startScreenCoinImage, scoreEffect;
-    public Text  winScreenScoreText, levelNoText, totalElmasText;
+    public Text winScreenScoreText, levelNoText, totalElmasText;
     public Animator ScoreTextAnim;
-    public Text incomeText, powerText, incomeFiyatText, powerFiyatText,paraText;
+    public Text incomeText, powerText, incomeFiyatText, powerFiyatText, paraText;
     public Slider powerSlider;
     public Text distanceObjText, bestDistanceObjText;
     public Button powerButton, incomeButton;
     public GameObject powerSliderPanel;
-    
+
 
 
 
@@ -31,13 +31,14 @@ public class UIController : MonoBehaviour
         Application.targetFrameRate = 60;
         StartUI();
         ControlButtons();
+        //PlayerPrefs.SetInt("para", 999999999);
     }
 
 
     // Oyun ilk acildiginda calisacak olan ui fonksiyonu. 
     public void StartUI()
     {
-       
+
         ActivateTapToStartScreen();
         SetParaText();
     }
@@ -55,7 +56,7 @@ public class UIController : MonoBehaviour
         StartCoroutine(AnimatePowerSlider());
         TapToStartPanel.SetActive(false);
         GamePanel.SetActive(true);
-        
+
     }
 
     public void RestartButtonClick()
@@ -79,45 +80,45 @@ public class UIController : MonoBehaviour
         PonPonKiz.instance.Reset();
         GameController.instance.bestDistanceTextObj.SetActive(false);
         GameController.instance.distanceTextObj.SetActive(false);
-        GameController.instance.distanceLineObj.transform.position = new Vector3(-100,0,0);
+        GameController.instance.distanceLineObj.transform.position = new Vector3(-100, 0, 0);
     }
 
     public void IncomeButtonClick()
-	{
+    {
         Adam.instance.IncreaseIncome();
-	}
+    }
 
     public void PowerButtonClick()
-	{
+    {
         Adam.instance.IncreasePower();
-	}
+    }
 
     public void FirlatButtonClick()
-	{
+    {
         GameController.instance.sliderTime = false;
         Adam.instance.currentAdam1.GetComponent<Animator>().SetTrigger("firlat");
-        if(Adam.instance.currentAdam2 != null) Adam.instance.currentAdam2.GetComponent<Animator>().SetTrigger("firlat");
-        if(Adam.instance.currentAdam3 != null)Adam.instance.currentAdam3.GetComponent<Animator>().SetTrigger("firlat");
+        if (Adam.instance.currentAdam2 != null) Adam.instance.currentAdam2.GetComponent<Animator>().SetTrigger("firlat");
+        if (Adam.instance.currentAdam3 != null) Adam.instance.currentAdam3.GetComponent<Animator>().SetTrigger("firlat");
         GamePanel.SetActive(false);
         StartCoroutine(SliderGizle());
     }
 
     IEnumerator SliderGizle()
-	{
+    {
         yield return new WaitForSeconds(1.2f);
         powerSliderPanel.SetActive(false);
-	}
+    }
 
     public void ControlButtons()
-	{
-        if(Adam.instance.powerFiyati <= GameController.instance.para)
-		{
+    {
+        if (Adam.instance.powerFiyati <= GameController.instance.para)
+        {
             powerButton.interactable = true;
-		}
-		else
-		{
+        }
+        else
+        {
             powerButton.interactable = false;
-		}
+        }
 
         if (Adam.instance.incomeFiyati <= GameController.instance.para)
         {
@@ -130,28 +131,28 @@ public class UIController : MonoBehaviour
     }
 
     public void SetParaText()
-	{
+    {
         ControlButtons();
         paraText.text = GameController.instance.para.ToString();
-	}
+    }
 
     public IEnumerator AnimatePowerSlider()
-	{
+    {
         float artis = .03f;
 
-		while (GameController.instance.sliderTime)
-		{
+        while (GameController.instance.sliderTime)
+        {
             powerSlider.value += artis;
             if (powerSlider.value >= .5f || powerSlider.value <= -.5f) artis = -artis;
             yield return new WaitForSeconds(.01f);
-		}
-	}
+        }
+    }
 
 
     public void SetBestDistanceObjText()
-	{
+    {
         bestDistanceObjText.text = PlayerPrefs.GetInt("best").ToString() + " m";
-	}
+    }
 
     public void SetDistanceObjText()
     {
@@ -282,14 +283,14 @@ public class UIController : MonoBehaviour
 
 
     public void SetAllText()
-	{
+    {
         incomeText.text = PlayerPrefs.GetFloat("income").ToString();
         powerText.text = PlayerPrefs.GetInt("power").ToString();
         powerFiyatText.text = PlayerPrefs.GetInt("powerfiyati").ToString();
         incomeFiyatText.text = PlayerPrefs.GetInt("incomefiyati").ToString();
         paraText.text = PlayerPrefs.GetInt("para").ToString();
         ControlButtons();
-	}
+    }
 
 
 }
